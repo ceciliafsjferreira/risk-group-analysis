@@ -1,7 +1,9 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+
+# Limpeza e padronização do dataset
 
 df = pd.read_csv("case_inadimplencia.csv")
-
 
 line = df.shape[0] 
 column = df.shape[1]
@@ -21,3 +23,18 @@ df.describe()
 df.duplicated().sum()
 
 print(df.describe().T)
+print(df['INADIMPLENTE_90D'].value_counts())
+
+# Taxa de inadimplência acima de 90 dias na carteira de clientes
+
+taxa_inadimplencia_90d = df['INADIMPLENTE_90D'].mean()*100
+print('Taxa de inadimplentes acima de 90 dias: {:.2f}%'.format(taxa_inadimplencia_90d))
+
+# Associação de inadimplência com classe social
+
+print(df.groupby('CLASSE_SOCIAL')['INADIMPLENTE_90D'].mean())
+
+
+
+
+
