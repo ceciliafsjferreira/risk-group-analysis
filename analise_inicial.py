@@ -58,6 +58,56 @@ plt.ylabel('Taxa de inadimplência (%)')
 
 plt.show()
 
+df.groupby("CANAL_AQUISICAO")["INADIMPLENTE_90D"].mean()
+df.groupby("POSSUI_RESTRICAO")["INADIMPLENTE_90D"].mean()
+df.groupby("REGIAO")["INADIMPLENTE_90D"].mean()
+df.groupby("SEXO")["INADIMPLENTE_90D"].mean()
+df.groupby("NUM_EMPRESTIMOS_ANTERIORES")["INADIMPLENTE_90D"].mean()
+
+df["FAIXA_SCORE"] = pd.cut(
+    df["SCORE_INTERNO"],
+    bins=[0, 300, 500, 700, 1000],
+    labels=["Baixo", "Médio", "Bom", "Alto"]
+)
+df.groupby("FAIXA_SCORE", observed=True)["INADIMPLENTE_90D"].mean()
+
+df["FAIXA_RENDA"] = pd.cut(
+    df["RENDA_MENSAL"],
+    bins=[0, 1500, 2500, 4000, np.inf],
+    labels=["Até 1.500", "1.500-2.500", "2.500-4.000", "Acima de 4.000"]
+)
+df.groupby("FAIXA_RENDA", observed=True)["INADIMPLENTE_90D"].mean()
+
+resultado = (
+    df.groupby("CANAL_AQUISICAO")["INADIMPLENTE_90D"]
+      .agg(["mean", "count"])
+      .sort_values("mean", ascending=False)
+)
+
+print("\n--- Canal de Aquisição ---")
+print(df.groupby("CANAL_AQUISICAO")["INADIMPLENTE_90D"].mean()*100)
+
+print("\n--- Possui Restrição ---")
+print(df.groupby("POSSUI_RESTRICAO")["INADIMPLENTE_90D"].mean()*100)
+
+print("\n--- Região ---")
+print(df.groupby("REGIAO")["INADIMPLENTE_90D"].mean()*100)
+
+print("\n--- Sexo ---")
+print(df.groupby("SEXO")["INADIMPLENTE_90D"].mean()*100)
+
+print("\n--- Empréstimos Anteriores ---")
+print(df.groupby("NUM_EMPRESTIMOS_ANTERIORES")["INADIMPLENTE_90D"].mean()*100)
+
+print("\n--- Faixa de Score ---")
+print(df.groupby("FAIXA_SCORE", observed=True)["INADIMPLENTE_90D"].mean()*100)
+
+print("\n--- Faixa de Renda ---")
+print(df.groupby("FAIXA_RENDA", observed=True)["INADIMPLENTE_90D"].mean()*100)
+
+
+
+
 
 
 
