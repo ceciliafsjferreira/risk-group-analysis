@@ -1,7 +1,7 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
-
-# Limpeza e padronização do dataset
+import seaborn as sns
 
 df = pd.read_csv("case_inadimplencia.csv")
 
@@ -33,6 +33,30 @@ print('Taxa de inadimplentes acima de 90 dias: {:.2f}%'.format(taxa_inadimplenci
 # Associação de inadimplência com classe social
 
 print(df.groupby('CLASSE_SOCIAL')['INADIMPLENTE_90D'].mean())
+
+sns.countplot(data=df, x="INADIMPLENTE_90D")
+
+
+plt.title("Distribuição da Inadimplência")
+plt.ylabel("Quantidade de contratos")
+plt.bar(
+    df["INADIMPLENTE_90D"].value_counts().index,
+    df["INADIMPLENTE_90D"].value_counts().values,
+    color=["#8E44AD", "#E84393"]
+)
+plt.xticks([0, 1], ["Não inadimplente(81,9%)", "Inadimplente acima de 90 dias(18,1%)"])
+
+plt.show()
+
+classes = ['C', 'D']
+taxas = [16.2015, 18.8898]
+
+plt.bar(classes, taxas, color=["#3498DB", "#E74C3C"])
+plt.title('Taxa de inadimplência por classe social')
+plt.xlabel('Classe Social')
+plt.ylabel('Taxa de inadimplência (%)')
+
+plt.show()
 
 
 
