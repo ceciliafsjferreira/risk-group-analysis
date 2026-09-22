@@ -105,6 +105,36 @@ print(df.groupby("FAIXA_SCORE", observed=True)["INADIMPLENTE_90D"].mean()*100)
 print("\n--- Faixa de Renda ---")
 print(df.groupby("FAIXA_RENDA", observed=True)["INADIMPLENTE_90D"].mean()*100)
 
+taxa = (
+    df.groupby("CLASSE_SOCIAL")["INADIMPLENTE_90D"]
+      .mean()
+      .reset_index()
+)
+
+sns.barplot(
+    data=taxa,
+    x="CLASSE_SOCIAL",
+    y="INADIMPLENTE_90D"
+)
+
+plt.axhline('taxa_inadimplencia',
+    linestyle="--",
+    label="Média da carteira"
+)
+
+plt.title("Taxa de inadimplência por classe social")
+plt.ylabel("Taxa de inadimplência")
+plt.xlabel("Classe social")
+plt.legend()
+plt.show()
+
+df.groupby(
+    ["CLASSE_SOCIAL", "FAIXA_SCORE"]
+)["INADIMPLENTE_90D"].mean()
+
+df.groupby(
+    ["CANAL_AQUISICAO", "CLASSE_SOCIAL"]
+)["INADIMPLENTE_90D"].mean()
 
 
 
